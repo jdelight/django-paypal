@@ -59,7 +59,8 @@ IPN_POST_PARAMS = {
 }
 
 
-@override_settings(ROOT_URLCONF='paypal.standard.ipn.tests.test_urls')
+@override_settings(ROOT_URLCONF='paypal.standard.ipn.tests.test_urls',
+                   VALID_PAYPAL_RECEIVER_EMAILS=('valid_alternative@someotherbusiness.com',))
 class IPNTestBase(TestCase):
     def setUp(self):
         self.valid_ipn_received_receivers = valid_ipn_received.receivers
@@ -211,6 +212,13 @@ class IPNTest(IPNTestBase):
         update = {"receiver_email": "incorrect_email@someotherbusiness.com"}
         flag_info = "Invalid receiver_email. (incorrect_email@someotherbusiness.com)"
         self.assertFlagged(update, flag_info)
+
+    def test_valid_alternative_receiver_email(self):
+        update = {"receiver_email": "valid_alternative@someotherbusiness.com"}
+        params = IPN_POST_PARAMS.copy()
+        params.update(update)
+
+        self.assertGotSignal(payment_was_successful, False, params, deprecated=True)
 
     def test_invalid_payment_status(self):
         update = {"payment_status": "Failure"}

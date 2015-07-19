@@ -14,6 +14,7 @@ settings.configure(
                 'NAME': 'test.db',
                 }},
     PAYPAL_RECEIVER_EMAIL='',
+    VALID_PAYPAL_RECEIVER_EMAILS=('',),
     PAYPAL_IDENTITY_TOKEN='',
     INSTALLED_APPS=[
         'django.contrib.auth',

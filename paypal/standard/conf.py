@@ -7,6 +7,8 @@ class PayPalSettingsError(Exception):
 
 RECEIVER_EMAIL = settings.PAYPAL_RECEIVER_EMAIL
 
+VALID_PAYPAL_RECEIVER_EMAILS = (settings.PAYPAL_RECEIVER_EMAIL,)
+
 
 # API Endpoints.
 POSTBACK_ENDPOINT = "https://www.paypal.com/cgi-bin/webscr"
